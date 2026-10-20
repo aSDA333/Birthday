@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advance Happy Birthday 🎂</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    background: #1a0b2e;
+    color: #fff;
+    height: 100vh;
+  }
+
+  /* ===== Slider ===== */
+  .slider {
+    display: flex;
+    height: 100vh;
+    width: 400%;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+  .page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #page1 { background: linear-gradient(135deg, #ff6b9d, #ffc371, #ff6b9d); }
+  #page2 { background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); }
+  #page3 { background: linear-gradient(135deg, #11998e, #38ef7d, #11998e); }
+  #page4 { background: linear-gradient(135deg, #fc466b, #3f5efb, #fc466b); }
+
+  h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    animation: bounceIn 0.8s ease;
+  }
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    max-width: 700px;
+    line-height: 1.6;
+    background: rgba(255,255,255,0.15);
+    padding: 18px 28px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    animation: fadeUp 1s ease 0.3s both;
+  }
+
+  /* ===== Wish cards ===== */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+    max-width: 900px;
+  }
+  .card {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 18px;
+    padding: 22px 26px;
+    max-width: 280px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    animation: fadeUp 0.7s ease both;
+    transition: transform 0.25s;
+  }
+  .card:hover { transform: scale(1.06) rotate(-2deg); }
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.25s; }
+  .card:nth-child(3) { animation-delay: 0.4s; }
+  .card:nth-child(4) { animation-delay: 0.55s; }
+
+  /* ===== Quotes ===== */
+  .quotes { max-width: 750px; }
+  .quote {
+    font-size: clamp(1.1rem, 2.3vw, 1.4rem);
+    margin: 16px 0;
+    padding: 16px 24px;
+    background: rgba(0,0,0,0.25);
+    border-left: 6px solid #fff;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.5;
+    animation: fadeUp 0.8s ease both;
+  }
+  .quote:nth-child(1) { animation-delay: 0.15s; }
+  .quote:nth-child(2) { animation-delay: 0.35s; }
+  .quote:nth-child(3) { animation-delay: 0.55s; }
+
+  /* ===== Cake ===== */
+  .cake {
+    position: relative;
+    width: 220px;
+    height: 200px;
+    margin: 20px 0;
+  }
+  .layer {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 12px;
+  }
+  .layer1 { width: 220px; height: 70px; background: #f4a261; }
+  .layer2 { width: 180px; height: 65px; bottom: 70px; background: #ffb4a2; }
+  .layer3 { width: 140px; height: 60px; bottom: 135px; background: #ffd6a5; }
+
+  .candle {
+    position: absolute;
+    bottom: 195px;
+    width: 12px;
+    height: 45px;
+    background: repeating-linear-gradient(45deg, #e63946, #e63946 5px, #fff 5px, #fff 10px);
+    border-radius: 4px;
+  }
+  .candle:nth-child(4) { left: calc(50% - 55px); }
+  .candle:nth-child(5) { left: calc(50% - 5px); }
+  .candle:nth-child(6) { left: calc(50% + 45px); }
+
+  .flame {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 22px;
+    background: radial-gradient(circle at 50% 70%, #fff 10%, #ffb703 45%, #fb8500 90%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flicker 0.15s infinite alternate;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .flame.off { opacity: 0; transform: translateX(-50%) scale(0); }
+  @keyframes flicker {
+    from { transform: translateX(-50%) scale(1) rotate(-2deg); }
+    to   { transform: translateX(-50%) scale(1.1) rotate(2deg); }
+  }
+
+  /* ===== Buttons ===== */
+  button {
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: #fff;
+    color: #d62828;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  button:hover { transform: scale(1.08); box-shadow: 0 8px 26px rgba(0,0,0,0.4); }
+  button:active { transform: scale(0.95); }
+  button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  .btn-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .mic-status {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+    transition: background 0.3s;
+  }
+  .mic-status.listening { background: rgba(56, 239, 125, 0.4); }
+  .mic-status.blowing   { background: rgba(251, 133, 0, 0.6); font-weight: bold; }
+
+  .cake-msg {
+    margin-top: 16px;
+    font-size: 1.2rem;
+    min-height: 1.6em;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  }
+
+  /* ===== Navigation ===== */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: none;
+    padding: 0;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.5); transform: translateY(-50%) scale(1.1); }
+  #prev { left: 18px; }
+  #next { right: 18px; }
+  .nav-btn.hidden { opacity: 0; pointer-events: none; }
+
+  /* ===== Dots ===== */
+  .dots {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.45);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active { background: #fff; transform: scale(1.35); }
+
+  /* ===== Confetti ===== */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    z-index: 50;
+    pointer-events: none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="slider" id="slider">
+
+  <!-- PAGE 1 -->
+  <section class="page" id="page1">
+    <h1>🎉 Advance Happy Birthday! 🎉</h1>
+    <p class="subtitle">
+      Happy early birthday! You're not older <em>yet</em> — but your back, your knees,
+      and your sleep schedule already sent their congratulations. 🥳
+    </p>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="page" id="page2">
+    <h1>💌 Your Funny Wishes</h1>
+    <div class="cards">
+      <div class="card">May your cake be as big as your excuses for not replying to texts. 😏</div>
+      <div class="card">Wishing you a year of good luck and even better Wi-Fi. 📶</div>
+      <div class="card">May your birthday be as lit as your phone at 3 AM. 🔥</div>
+      <div class="card">May you age like fine wine — expensive, slightly dramatic, best enjoyed from a distance. 🍷</div>
+    </div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section class="page" id="page3">
+    <h1>💪 Motivational Lines</h1>
+    <div class="quotes">
+      <div class="quote">"Dream big. Then take a nap — dreaming is exhausting." 😴</div>
+      <div class="quote">"Believe in yourself. Someone has to." 🙌</div>
+      <div class="quote">"You can achieve anything — except maybe remembering where you put your keys." 🔑</div>
+    </div>
+  </section>
+
+  <!-- PAGE 4 -->
+  <section class="page" id="page4">
+    <h1>🎂 Blow the Candles!</h1>
+    <div class="cake">
+      <div class="layer layer1"></div>
+      <div class="layer layer2"></div>
+      <div class="layer layer3"></div>
+      <div class="candle"><div class="flame"></div></div>
+      <div class="candle"><div class="flame"></div></div>
+      <div class="candle"><div class="flame"></div></div>
+    </div>
+
+    <div class="mic-status" id="micStatus">🎤 Mic is off</div>
+
+    <div class="btn-row">
+      <button id="micBtn">🎤 Use Mic to Blow</button>
+      <button id="blowBtn">💨 Blow (Tap)</button>
+    </div>
+
+    <div class="cake-msg" id="cakeMsg">The candles are watching you. Suspiciously.</div>
+  </section>
+
+</div>
+
+<button class="nav-btn" id="prev">‹</button>
+<button class="nav-btn" id="next">›</button>
+<div class="dots" id="dots"></div>
+
+<script>
+  /* ================= SLIDER ================= */
+  const slider  = document.getElementById('slider');
+  const pages   = document.querySelectorAll('.page');
+  const total   = pages.length;
+  let current   = 0;
+
+  const dotsContainer = document.getElementById('dots');
+  pages.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+  const dots = document.querySelectorAll('.dot');
+
+  function goTo(index) {
+    current = Math.max(0, Math.min(index, total - 1));
+    slider.style.transform = `translateX(-${current * 100}vw)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    document.getElementById('prev').classList.toggle('hidden', current === 0);
+    document.getElementById('next').classList.toggle('hidden', current === total - 1);
+    burstConfetti(25);
+  }
+
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+  });
+
+  let startX = 0;
+  document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+  });
+
+  goTo(0);
+
+  /* ================= CONFETTI ================= */
+  const colors = ['#ff6b9d','#ffc371','#38ef7d','#667eea','#f093fb','#fb8500','#fff'];
+  function burstConfetti(count = 20) {
+    for (let i = 0; i < count; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      c.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }
+  }
+
+  /* ================= CAKE ================= */
+  const blowBtn   = document.getElementById('blowBtn');
+  const micBtn    = document.getElementById('micBtn');
+  const micStatus = document.getElementById('micStatus');
+  const cakeMsg   = document.getElementById('cakeMsg');
+  const flames    = document.querySelectorAll('.flame');
+
+  let blowCount = 0;
+  let cakeDone  = false;
+
+  const funnyMessages = [
+    "Nice try. Again. 😏",
+    "Is your breath okay? Try harder. 💨",
+    "The candles are laughing at you. 😂",
+    "Still lit. Impressive commitment. 🔥",
+    "Okay okay... one more puff. 🤞",
+    "You call that a blow? My grandma blows harder. 👵"
+  ];
+
+  function extinguishOne() {
+    if (cakeDone) return;
+    const litFlames = [...flames].filter(f => !f.classList.contains('off'));
+    if (litFlames.length === 0) return;
+
+    litFlames[0].classList.add('off');
+    blowCount++;
+
+    if (litFlames.length > 1) {
+      cakeMsg.textContent = funnyMessages[Math.min(blowCount - 1, funnyMessages.length - 1)];
+      burstConfetti(10);
+    } else {
+      cakeDone = true;
+      cakeMsg.textContent = "🎉 FINALLY! Happy Birthday, legend! 🥳";
+      blowBtn.textContent = "You did it! 🎊";
+      blowBtn.disabled = true;
+      micBtn.disabled  = true;
+      micStatus.textContent = "✅ Candles out!";
+      micStatus.className = "mic-status";
+      burstConfetti(120);
+      stopMic();
+    }
+  }
+
+  blowBtn.addEventListener('click', extinguishOne);
+
+  /* ================= MIC BLOW DETECTION ================= */
+  let audioCtx, analyser, micStream, rafId;
+  let micOn = false;
+
+  function stopMic() {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (micStream) micStream.getTracks().forEach(t => t.stop());
+    if (audioCtx && audioCtx.state !== 'closed') audioCtx.close();
+    micOn = false;
+  }
+
+  micBtn.addEventListener('click', async () => {
+    if (micOn) {
+      stopMic();
+      micStatus.textContent = "🎤 Mic is off";
+      micStatus.className = "mic-status";
+      micBtn.textContent = "🎤 Use Mic to Blow";
+      return;
+    }
+
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
+      const src = audioCtx.createMediaStreamSource(micStream);
+      analyser  = audioCtx.createAnalyser();
+      analyser.fftSize = 512;
+      src.connect(analyser);
+
+      micOn = true;
+      micBtn.textContent = "🛑 Stop Mic";
+      micStatus.textContent = "🎤 Listening... now BLOW into the mic! 💨";
+      micStatus.className = "mic-status listening";
+
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      let cooldown = 0;
+
+      const detect = () => {
+        analyser.getByteFrequencyData(data);
+        let sum = 0;
+        for (let i = 2; i < 30; i++) sum += data[i];
+        const avg = sum / 28;
+
+        if (avg > 65 && cooldown <= 0 && !cakeDone) {
+          micStatus.textContent = "💨 Blowing detected!";
+          micStatus.className = "mic-status blowing";
+          extinguishOne();
+          cooldown = 35;
+          setTimeout(() => {
+            if (!cakeDone) {
+              micStatus.textContent = "🎤 Keep blowing... 💨";
+              micStatus.className = "mic-status listening";
+            }
+          }, 700);
+        }
+        if (cooldown > 0) cooldown--;
+
+        if (micOn && !cakeDone) rafId = requestAnimationFrame(detect);
+      };
+      detect();
+
+    } catch (err) {
+      micStatus.textContent = "❌ Mic blocked. Use the tap button instead!";
+      micStatus.className = "mic-status";
+      console.error(err);
+    }
+  });
+</script>
+
+</body>
+</html>
